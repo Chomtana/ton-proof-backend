@@ -76,7 +76,7 @@ func (h *handler) ProofHandler(c echo.Context) error {
 	claims := &jwtCustomClaims{
 		tp.Address,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
+			ExpiresAt: time.Now().AddDate(10, 0, 0).Unix(),
 		},
 	}
 
