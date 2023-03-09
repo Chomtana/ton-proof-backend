@@ -5,9 +5,10 @@ import (
 	"crypto/ed25519"
 	"crypto/sha256"
 	"fmt"
+	"time"
+
 	"github.com/tonkeeper/tongo"
 	"github.com/tonkeeper/tongo/liteapi"
-	"time"
 
 	"encoding/base64"
 	"encoding/binary"
@@ -101,11 +102,11 @@ func CheckProof(ctx context.Context, address tongo.AccountID, net *liteapi.Clien
 		return false, fmt.Errorf(msgErr)
 	}
 
-	if tonProofReq.Domain.Value != config.Proof.ExampleDomain {
-		msgErr := fmt.Sprintf("wrong domain: %v", tonProofReq.Domain)
-		log.Error(msgErr)
-		return false, fmt.Errorf(msgErr)
-	}
+	// if tonProofReq.Domain.Value != config.Proof.ExampleDomain {
+	// 	msgErr := fmt.Sprintf("wrong domain: %v", tonProofReq.Domain)
+	// 	log.Error(msgErr)
+	// 	return false, fmt.Errorf(msgErr)
+	// }
 
 	mes, err := CreateMessage(ctx, tonProofReq)
 	if err != nil {

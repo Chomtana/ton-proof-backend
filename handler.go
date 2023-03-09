@@ -3,10 +3,11 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/tonkeeper/tongo"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/tonkeeper/tongo"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
@@ -75,7 +76,7 @@ func (h *handler) ProofHandler(c echo.Context) error {
 	claims := &jwtCustomClaims{
 		tp.Address,
 		jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(time.Hour).Unix(),
+			ExpiresAt: time.Now().Add(24 * time.Hour).Unix(),
 		},
 	}
 
