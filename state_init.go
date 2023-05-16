@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"encoding/hex"
 	"fmt"
+
+	"github.com/tonkeeper/tongo"
 	"github.com/tonkeeper/tongo/boc"
 	"github.com/tonkeeper/tongo/tlb"
 	"github.com/tonkeeper/tongo/wallet"
@@ -36,7 +39,7 @@ func ParseStateInit(stateInit string) ([]byte, error) {
 	}
 	version, prs := knownHashes[codeHash]
 	if !prs {
-		return nil, err
+		return nil, fmt.Errorf("unknown code hash")
 	}
 	var pubKey tlb.Bits256
 	switch version {
@@ -57,4 +60,16 @@ func ParseStateInit(stateInit string) ([]byte, error) {
 	}
 
 	return pubKey[:], nil
+}
+
+func CompareStateInitWithAddress(a tongo.AccountID, stateInit string) (bool, error) {
+	cells, err := boc.DeserializeBocBase64(stateInit)
+	if err != nil || len(cells) != 1 {
+		return false, err
+	}
+	h, err := cells[0].Hash()
+	if err != nil {
+		return false, err
+	}
+	return bytes.Equal(h, a.Address[:]), nil
 }
